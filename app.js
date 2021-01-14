@@ -4,13 +4,11 @@ let questionContainer = $("#question-container");
 let questionElement = $("#question");
 let answerBtnElement = $("#answers-btn");
 
-
 let randomQuestion;
 let actualQuestionIndex;
 let goodAnswers;
-
-
-
+let result = document.createElement("p");
+result.classList.add("para")
 
 startBtn.click(startGame);
 nextBtn.click(function () {
@@ -22,6 +20,7 @@ nextBtn.click(function () {
 function startGame() {
     $(".btn").addClass("hide");
     $("span").addClass("hide");
+    $("p").addClass("hide");
     goodAnswers = 0;
     startBtn.addClass("hide");
     randomQuestion = question.sort(()=> Math.random() - 0.5);
@@ -29,7 +28,6 @@ function startGame() {
     questionContainer.removeClass("hide");
     setNextQuestion();
 }
-
 
 function setNextQuestion() {
     reset();
@@ -60,7 +58,18 @@ function selectAnswer(e) {
 
     if (selectedBtn.dataset = correct) {
         goodAnswers++;
-        console.log(goodAnswers);
+    }
+    else {
+        let tableauTampon = [];
+        let stringTampon;
+        for (let x = 0; x < question[actualQuestionIndex].answer.length; x++) {
+            if (question[actualQuestionIndex].answer[x].correct === true) {
+                tableauTampon.push(question[actualQuestionIndex].answer[x].text);
+                stringTampon += tableauTampon[x] + " ";
+                console.log(stringTampon);
+            }
+        }
+        result.innerHTML += question[actualQuestionIndex].question + " Réponse : " + stringTampon + "<br>";
     }
 
     if (randomQuestion.length > actualQuestionIndex + 1) {
@@ -73,6 +82,7 @@ function selectAnswer(e) {
         spanCrea.style.fontSize = "1rem";
         spanCrea.innerHTML = response;
         answerBtnElement.append(spanCrea);
+        answerBtnElement.append(result);
 
     }
 }
