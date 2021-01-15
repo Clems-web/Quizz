@@ -1,75 +1,83 @@
+// ----- Variable Init -----
 let startBtn = $("#start-btn");
 let nextBtn = $("#next-btn");
 let questionContainer = $("#question-container");
 let questionElement = $("#question");
 let answerBtnElement = $("#answers-btn");
-
 let randomQuestion;
 let actualQuestionIndex;
 let goodAnswers;
 let result = document.createElement("p");
-result.classList.add("para")
+result.classList.add("para");
 
+// ----- Button ------
+    /* Launch game */
 startBtn.click(startGame);
+
+    /* Launch next question */
 nextBtn.click(function () {
     $(".btn").addClass("hide");
     actualQuestionIndex++;
-    showQestion();
-})
+    showQuestion();
+});
 
+
+// ----- Function's list -----
 function startGame() {
+    /* Hide every element inside the container, very useful in case of a restart */
     $(".btn").addClass("hide");
     $("span").addClass("hide");
     $("p").addClass("hide");
+
+    /* Set correct answer's count to 0, also useful for restart */
     goodAnswers = 0;
     startBtn.addClass("hide");
+
+    /* Set the order of question with a negative/positive number */
     randomQuestion = question.sort(()=> Math.random() - 0.5);
     actualQuestionIndex = 0;
+
+    /*When the question is selected we make it appear like magic*/
     questionContainer.removeClass("hide");
     setNextQuestion();
 }
 
 function setNextQuestion() {
-    reset();
-    showQestion(randomQuestion[actualQuestionIndex]);
+    nextBtn.addClass("hide");
+    showQuestion(randomQuestion[actualQuestionIndex]);
 }
-function showQestion() {
+
+function showQuestion() {
+    /*Here we make the question appears like said a little above this comment*/
     questionElement.html(question[actualQuestionIndex].question);
 
+    /* Here we create a button for each answer (forEach) with their proper characteristics in the question array */
     question[actualQuestionIndex].answer.forEach(answer => {
         const button = document.createElement("button");
         button.innerHTML = answer.text;
-        button.classList.add("btn")
+        button.classList.add("btn");
         if (answer.correct) {
-            button.dataset.correct = answer.correct
+            button.dataset.correct = answer.correct;
         }
         button.addEventListener("click", selectAnswer);
         answerBtnElement.append(button);
     })
 }
-
-function reset() {
-    nextBtn.addClass("hide");
-}
-
+    /* Here is how we specific if the chosen answer is correct or not */
 function selectAnswer(e) {
     const selectedBtn = e.target;
-    const correct = selectedBtn.dataset.correct;
-
-    if (selectedBtn.dataset = correct) {
+        /* If yes --> goodAnswers +1 */
+    if (selectedBtn.dataset.correct === "true") {
         goodAnswers++;
     }
+        /* If not --> We stock the actual question + the correct  */
     else {
-        let tableauTampon = [];
-        let stringTampon;
         for (let x = 0; x < question[actualQuestionIndex].answer.length; x++) {
             if (question[actualQuestionIndex].answer[x].correct === true) {
-                tableauTampon.push(question[actualQuestionIndex].answer[x].text);
-                stringTampon += tableauTampon[x] + " ";
-                console.log(stringTampon);
+                result.innerHTML += question[actualQuestionIndex].question + "<br>"+ " Réponse : " + question[actualQuestionIndex].answer[x].text + "<br>" ;
             }
         }
-        result.innerHTML += question[actualQuestionIndex].question + " Réponse : " + stringTampon + "<br>";
+
     }
 
     if (randomQuestion.length > actualQuestionIndex + 1) {
@@ -79,7 +87,7 @@ function selectAnswer(e) {
         startBtn.removeClass("hide");
         let spanCrea = document.createElement("span");
         let response = "réponses correctes : " + goodAnswers + "/10";
-        spanCrea.style.fontSize = "1rem";
+        spanCrea.style.fontSize = "2rem";
         spanCrea.innerHTML = response;
         answerBtnElement.append(spanCrea);
         answerBtnElement.append(result);
@@ -87,6 +95,8 @@ function selectAnswer(e) {
     }
 }
 
+
+// ----- Question's list -----
 const question = [
     {
         question: "Quel est le résultat de 2+2 ?",
