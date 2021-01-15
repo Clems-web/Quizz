@@ -150,10 +150,10 @@ const question = [
     {
         question: "Quel est la couleur préférée de Matthias ?",
         answer: [
-            { text: "Le verre", correct: false },
-            { text: "le vert", correct: true},
-            { text: "le vers", correct: false},
-            { text: "le verre", correct: false }
+            { text: "Ver", correct: false },
+            { text: "Vert", correct: true},
+            { text: "Vers", correct: false},
+            { text: "Verre", correct: false }
         ]
     },
     {
@@ -161,7 +161,7 @@ const question = [
         answer: [
             { text: "On verra plus tard", correct: false },
             { text: "On verra ça plus tard", correct: true},
-            { text: "toggle", correct: false},
+            { text: "Toggle", correct: false},
             { text: "Louise je travaille !", correct: false }
         ]
     },
