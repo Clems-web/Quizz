@@ -40,7 +40,7 @@ function startGame() {
     randomQuestion = question.sort(()=> Math.random() - 0.5);
     actualQuestionIndex = 0;
 
-    /*When the question is selected we make it appear like magic*/
+    /* When the question is selected we make it appear like magic */
     questionContainer.removeClass("hide");
     setNextQuestion();
 }
@@ -51,7 +51,7 @@ function setNextQuestion() {
 }
 
 function showQuestion() {
-    /*Here we make the question appears like said a little above this comment*/
+    /*Here we make the question appears like said a little above */
     questionElement.html(question[actualQuestionIndex].question);
 
     /* Here we create a button for each answer (forEach) with their proper characteristics in the question array */
