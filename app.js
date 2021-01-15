@@ -171,7 +171,7 @@ const question = [
             { text: "1", correct: false },
             { text: "2", correct: false},
             { text: "3", correct: true},
-            { text: "Je s'appelle Groot", correct: true }
+            { text: "Je s'appelle Groot", correct: false }
         ]
     },
     {
