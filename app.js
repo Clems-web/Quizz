@@ -7,6 +7,7 @@ let answerBtnElement = $("#answers-btn");
 let randomQuestion;
 let actualQuestionIndex;
 let goodAnswers;
+let activate = true;
 let result = document.createElement("p");
 result.classList.add("para");
 
@@ -19,6 +20,7 @@ nextBtn.click(function () {
     $(".btn").addClass("hide");
     actualQuestionIndex++;
     showQuestion();
+    activate = true;
 });
 
 
@@ -28,6 +30,7 @@ function startGame() {
     $(".btn").addClass("hide");
     $("span").addClass("hide");
     $("p").addClass("hide");
+    questionElement.removeClass("hide");
 
     /* Set correct answer's count to 0, also useful for restart */
     goodAnswers = 0;
@@ -63,26 +66,37 @@ function showQuestion() {
         answerBtnElement.append(button);
     })
 }
-    /* Here is how we specific if the chosen answer is correct or not */
+    /* Here is how we specific if the chosen answer is correct or not and we also use a boolean to avoid multiple selection */
 function selectAnswer(e) {
     const selectedBtn = e.target;
+    if (activate) {
+
         /* If yes --> goodAnswers +1 */
-    if (selectedBtn.dataset.correct === "true") {
-        goodAnswers++;
-    }
-        /* If not --> We stock the actual question + the correct  */
-    else {
-        for (let x = 0; x < question[actualQuestionIndex].answer.length; x++) {
-            if (question[actualQuestionIndex].answer[x].correct === true) {
-                result.innerHTML += question[actualQuestionIndex].question + "<br>"+ " Réponse : " + question[actualQuestionIndex].answer[x].text + "<br>" ;
-            }
+        if (selectedBtn.dataset.correct === "true") {
+            goodAnswers++;
         }
+        /* If not --> We stock the actual question + the correct answer */
+        else {
+            for (let x = 0; x < question[actualQuestionIndex].answer.length; x++) {
+                if (question[actualQuestionIndex].answer[x].correct === true) {
+                    result.innerHTML += question[actualQuestionIndex].question + "<br>" + " Réponse : " + question[actualQuestionIndex].answer[x].text + "<br>";
+                }
+            }
 
+        }
     }
+        /* With this, players can't cheat anymore, I guess ? */
+    activate = false;
 
+        /* Another important thing : we don't want to have a duplicate question so */
     if (randomQuestion.length > actualQuestionIndex + 1) {
         nextBtn.removeClass("hide");
-    } else {
+    }
+        /* If we have answered every question then you have the result + you can restart, i mean, if you want to */
+    else {
+        activate = true;
+        $(".btn").addClass("hide");
+        questionElement.addClass("hide");
         startBtn.html("Restart");
         startBtn.removeClass("hide");
         let spanCrea = document.createElement("span");
@@ -91,7 +105,6 @@ function selectAnswer(e) {
         spanCrea.innerHTML = response;
         answerBtnElement.append(spanCrea);
         answerBtnElement.append(result);
-
     }
 }
 
