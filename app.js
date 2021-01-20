@@ -26,11 +26,12 @@ nextBtn.click(function () {
 
 // ----- Function's list -----
 function startGame() {
-    /* Hide every element inside the container, very useful in case of a restart */
+    /* Hide every element inside the container and reset our result, very useful in case of a restart */
     $(".btn").addClass("hide");
     $("span").addClass("hide");
     $("p").addClass("hide");
     questionElement.removeClass("hide");
+    result.innerHTML = "";
 
     /* Set correct answer's count to 0, also useful for restart */
     goodAnswers = 0;
@@ -99,6 +100,9 @@ function selectAnswer(e) {
         questionElement.addClass("hide");
         startBtn.html("Restart");
         startBtn.removeClass("hide");
+        startBtn.click(function () {
+            window.location.reload();
+        });
         let spanCrea = document.createElement("span");
         let response = "réponses correctes : " + goodAnswers + "/10";
         spanCrea.style.fontSize = "2rem";
